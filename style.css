@@ -12,7 +12,7 @@ body {
   flex-direction: column;
   gap: 20px;
   border-style: solid;
-  width: 640px;
+  width: 940px;
   margin: auto;
   align-content: center;
   background-color: rgb(158, 0, 0);
@@ -32,10 +32,10 @@ body {
 .topSide {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   width: 575px;
   height: 575px;
-  margin-left: 31px;
+  margin-left: auto;
+  margin-right: auto;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
 }
@@ -47,14 +47,10 @@ body {
   border-bottom: 1px solid black;
 }
 
-.topSide .non-painted, .topSide .painted{
+.topSide .canvasBlock{
   flex: 1;
   border-right: 1px solid black;
   cursor: crosshair;
-}
-
-.painted {
-  background-color: blue;
 }
 
 .bottomSide {
