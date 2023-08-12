@@ -38,6 +38,7 @@ body {
   margin-right: auto;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+  background-color: whitesmoke;
 }
 
 .topSide .gridRow {
@@ -51,6 +52,10 @@ body {
   flex: 1;
   border-right: 1px solid black;
   cursor: crosshair;
+}
+
+.topSide .canvasBlock.toIncrease {
+  opacity: 0.1;
 }
 
 .bottomSide {
@@ -67,7 +72,7 @@ body {
   color: rgb(216, 163, 163);
   border: none;
   margin-top: 20px;
-  transition: all(0.07s);
+  transition: color 0.07s, transform 0.07s;
 }
 
 .bottomSide button:hover {

@@ -52,19 +52,29 @@ body.append(container);
 
 paintGrid();
 
+let currentColor = null;
+
 const colorButtons = document.querySelectorAll('.colorButton');
 
 colorButtons.forEach(button => button.addEventListener('click', () => {
 
+  if (currentColor) {
+    clearGrid();
+    currentColor = null;
+  }
+
   switch (button.textContent) {
     case 'Default Color':
       paintGrid();
+      currentColor = true;
       break;
     case 'Random Color':
       randomRGB();
+      currentColor = true;
       break;
     case '10% Color':
       opaqueColor();
+      currentColor = true;
       break;
   }
 }));
@@ -109,30 +119,24 @@ function changeGridSize() {
 }
 
 function clearGrid() {
-  const paintedGrid = document.querySelectorAll('.canvasBlock');
 
-  paintedGrid.forEach(grid => {
-    grid.style.cssText = '';
+  const grids = document.querySelectorAll('.canvasBlock');
+
+  grids.forEach(grid => {
+    grid.style.backgroundColor = 'whitesmoke';
+    grid.style.opacity = ''
+    grid.classList.remove('toIncrease');
+
+    let newGrid = grid.cloneNode(true);
+    grid.parentNode.replaceChild(newGrid, grid);
   });
-}
-
-function chooseColor(color) {
-
-  switch (color) {
-    case 'blue':
-      paintGrid();
-      break;
-    case 'RGB':
-      randomRGB();
-      break;
-  }
 }
 
 function paintGrid() {
   const gridCanvas = document.querySelectorAll('.canvasBlock');
 
   gridCanvas.forEach(grid => grid.addEventListener('mouseenter', () => {
-    grid.style.cssText = 'background-color: blue';
+    grid.style.backgroundColor = 'blue';
   }));
 }
 
@@ -144,7 +148,8 @@ function randomRGB() {
     let R = Math.floor((Math.random() * 255));
     let G = Math.floor((Math.random() * 255));
     let B = Math.floor((Math.random() * 255));
-    grid.style.cssText = `background-color: rgb(${R},${G},${B});`
+
+    grid.style.backgroundColor = `rgb(${R},${G},${B})`
   }));
 }
 
@@ -152,12 +157,18 @@ function opaqueColor() {
 
   const grids = document.querySelectorAll('.canvasBlock');
 
-  let opacity = 0;
-
   grids.forEach(grid => grid.addEventListener('mouseenter', () => {
-    if(grid.classList == 'opaque canvasBlock') opacity += 0.1;
-    else opacity = 0.1;
-    grid.style.cssText = `background-color: rgb(0,0,0); opacity: ${opacity}`
-    grid.classList = 'opaque canvasBlock';
+
+    grid.style.backgroundColor = 'black';
+
+    if (grid.classList == 'canvasBlock toIncrease') {
+      let computedStyle = window.getComputedStyle(grid);
+      let oldOpacity = computedStyle.getPropertyValue('opacity');
+      let parsedOpacity = parseFloat(oldOpacity);
+      parsedOpacity += 0.1;
+      grid.style.opacity = parsedOpacity;
+    } else {
+      grid.classList.add('toIncrease');
+    }
   }));
 }
