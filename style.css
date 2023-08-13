@@ -45,12 +45,10 @@ body {
   flex: 1;
   display: flex;
   justify-content: space-evenly;
-  border-bottom: 1px solid black;
 }
 
 .topSide .canvasBlock{
   flex: 1;
-  border-right: 1px solid black;
   cursor: crosshair;
 }
 
@@ -73,6 +71,11 @@ body {
   border: none;
   margin-top: 20px;
   transition: color 0.07s, transform 0.07s;
+}
+
+.bottomSide button.active {
+  color: white;
+  box-shadow: 0 0 20px rgb(255, 255, 255);
 }
 
 .bottomSide button:hover {

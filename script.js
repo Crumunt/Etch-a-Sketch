@@ -26,7 +26,7 @@ const opaqueButton = document.createElement('button');
 gridSizeButton.addEventListener('click', changeGridSize);
 gridSizeButton.textContent = 'Grid Size';
 
-resetButton.addEventListener('click', clearGrid);
+resetButton.addEventListener('click', () => clearGrid(currentColor));
 resetButton.textContent = 'Clear';
 
 blueButton.classList.add('colorButton');
@@ -50,33 +50,41 @@ container.appendChild(topSide);
 container.appendChild(bottomSide);
 body.append(container);
 
-paintGrid();
-
-let currentColor = null;
+let currentColor = 'default';
+let activeButton = null;
 
 const colorButtons = document.querySelectorAll('.colorButton');
 
 colorButtons.forEach(button => button.addEventListener('click', () => {
 
+  if(activeButton) {
+    activeButton.classList.remove('active');
+    activeButton = null;
+  }
+
   if (currentColor) {
-    clearGrid();
+    clearGrid(currentColor);
     currentColor = null;
   }
 
   switch (button.textContent) {
     case 'Default Color':
       paintGrid();
-      currentColor = true;
+      currentColor = 'default';
       break;
     case 'Random Color':
       randomRGB();
-      currentColor = true;
+      currentColor = 'randomRGB';
       break;
     case '10% Color':
       opaqueColor();
-      currentColor = true;
+      currentColor = 'opaque';
       break;
   }
+
+  button.classList.add('active');
+  activeButton = button;
+
 }));
 
 function createGrid(size) {
@@ -116,9 +124,10 @@ function changeGridSize() {
   }
   removeGrid();
   createGrid(newSize);
+  paintGrid();
 }
 
-function clearGrid() {
+function clearGrid(lastColor) {
 
   const grids = document.querySelectorAll('.canvasBlock');
 
@@ -130,6 +139,18 @@ function clearGrid() {
     let newGrid = grid.cloneNode(true);
     grid.parentNode.replaceChild(newGrid, grid);
   });
+
+  switch(lastColor) {
+    case 'default':
+      paintGrid();
+      break;
+    case 'randomRGB':
+      randomRGB();
+      break;
+    case 'opaque':
+      opaqueColor();
+      break;
+  }
 }
 
 function paintGrid() {
